@@ -1,0 +1,104 @@
+# SPDX-License-Identifier: GPL-2.0-only
+
+menuconfig SEC_DEBUG_BUILT
+	bool "Enable Samsung Debug Built-In feature"
+	default y
+	depends on ARM64
+	help
+	  Samsung Debug Driver (Built-In)
+
+if SEC_DEBUG_BUILT
+
+config SEC_DEBUG_BASE_BUILT_IN
+	bool "Samsung Debug Built-In Support"
+	default y
+	help
+	  Samsung Debug Base Driver (Built-In)
+
+config SEC_DEBUG_AUTO_COMMENT
+	bool "Enable Samsung kernel fault auto comment"
+	depends on PRINTK
+	default y
+	help
+	  This option enables kernel fault auto comment feature.
+	  This option also requires bootloader change that enables auto comment
+	  extraction along with ramdump.
+
+config SEC_DEBUG_MEMTAB
+	bool "Enable member offset table"
+	default y
+	help
+	  This option enables sec_debug member offset table.
+	  The table includes information of member required. And the bootloader
+	  will search on the table with key name.
+
+config SEC_DEBUG_BUG_ON_SLUB_CORRUPTION
+	bool "Trigger a BUG when slub corruption is detected"
+	default y
+	help
+	  Select this option if the kernel should BUG when it encounters
+	  slub corruption when they get checked for validity.
+
+config SEC_DEBUG_SPINBUG_PANIC
+	bool "Panic on spin bug"
+	depends on DEBUG_SPINLOCK
+	default y
+	help
+	  This option enables the kernel to panic on "spin bug"
+
+config SEC_DEBUG_EXCEPTION_STACK
+	bool "Preserve stack data when the exception happened"
+	default y
+	help
+	  If this is set, kernel can preserve the specific size of stack data
+	  when an exception occurs from EL1. This can help to fiqure out the
+	  stack data before the exception happened.
+
+config SEC_DEBUG_ATOMIC_SLEEP_PANIC
+	bool "Panic (Reboot) On Atomic Sleep"
+	depends on !SAMSUNG_PRODUCT_SHIP
+	default y
+	help
+	  Say Y here to enable the kernel to panic on "atomic sleep",
+
+	  Say N if you want warning messages only.
+
+config SEC_DEBUG_FAULT_MSG_ADV
+	bool "Print fault message for all kernel fault"
+	default y
+	help
+	  This option enables the kernel to print fault message and print
+	  physical fault address when synchronous external abort happen and
+	  add esr argument for undef function.
+
+config SEC_DEBUG_PM_DEVICE_INFO
+	bool "Set suspend/shutdown device informaion"
+	default y
+	help
+	  This option enables the kernel to save a device information while the
+	  device is suspending/shutting down.
+
+config SEC_DEBUG_TASK_IN_STATE_INFO
+	bool "Set task information in important system state"
+	default y
+	help
+	  This option enables the kernel to save a task information while the
+	  task enter in important system state.
+
+config SEC_DEBUG_PANIC_ON_RCU_STALL
+	bool "Enable panic on rcu stall"
+	depends on !SAMSUNG_PRODUCT_SHIP
+	depends on TREE_RCU || PREEMPT_RCU
+	default y
+	help
+	  This option enables the kernel to panic on "rcu stall"
+
+config SEC_DEBUG_QSPIN_OWNER
+	bool "Enable owner cpu number on spinlock"
+	depends on QUEUED_SPINLOCKS
+	default y
+	help
+	  This option enables spinlock owner information.
+	  The CPU number of owner is written into lock value.
+
+endif

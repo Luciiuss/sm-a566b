@@ -1,0 +1,26 @@
+# SPDX-License-Identifier: GPL-2.0
+
+config SAMSUNG_PRODUCT_SHIP
+	bool "set up for product shipping"
+	default y
+	help
+	  This option is enabled by SHIP build option.
+	  In samsung build script, '-s' enables this option.
+
+config SEC_FACTORY
+	bool "SAMSUNG Factory build option"
+	default n
+	help
+	  Include some codes for Factory binary.
+	  This option is enabled by Factory build option.
+	  In samsung build script, '-F' enables this option.
+
+menu "SAMSUNG OGKI debugging features"
+
+source "drivers/staging/samsung/fat_common/Kconfig"
+
+source "drivers/staging/samsung/fslog/Kconfig"
+
+source "drivers/staging/samsung/debug/Kconfig"
+
+endmenu # SAMSUNG_MX

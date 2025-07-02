@@ -1,0 +1,9 @@
+
+config UH_DEBUG_LOG
+    tristate "Enable Samsung uH debug support"
+    default y
+    depends on UH 
+    depends on !SEC_FACTORY
+    help
+      This option enables Samsung uH debug support.
+      Intended for test and debug only.
