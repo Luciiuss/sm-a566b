@@ -55,6 +55,7 @@ Special thanks to the following projects and contributors:
 * [**Magisk**](https://github.com/topjohnwu/Magisk) — for the `magiskboot` utility (by topjohnwu & contributors)
 * [**KernelSU-Next**](https://github.com/KernelSU-Next/KernelSU-Next) — by [rifxsd](https://github.com/rifxsd)
 * [**susfs4ksu**](https://gitlab.com/simonpunk/susfs4ksu) — by [simonpunk](https://gitlab.com/simonpunk)
+* Bluetooth fix — by [ReeViiS69](https://github.com/ReeViiS69)
 
 ---
 
