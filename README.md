@@ -13,11 +13,9 @@ If you need a newer firmware version, please download the source code from Samsu
 ## Build Kernel
 
 ```bash
-chmod +x build_kernel.sh
-./build_kernel.sh
+chmod +x build_script.sh
+./build_script.sh
 ```
-
-This will create a signed boot.img.
 
 ## Download from Samsung/Google
 
@@ -30,7 +28,7 @@ Download sources and toolchains from:
 repo init -u https://android.googlesource.com/kernel/manifest -b common-android15-6.6
 repo sync
 ```
-you may need to adjust the paths in ```build_kernel.sh```
+you may need to adjust the paths in ```build_script.sh```
 
 ## Disclaimer
 
