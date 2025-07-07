@@ -1,6 +1,3 @@
-[submodule "wild_kernelpatches"]
-	path = wild_kernelpatches
-	url = https://github.com/WildKernels/kernel_patches.git
 [submodule "susfs4ksu"]
 	path = susfs4ksu
 	url = https://gitlab.com/simonpunk/susfs4ksu.git
