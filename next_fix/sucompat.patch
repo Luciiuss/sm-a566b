@@ -1,7 +1,18 @@
 diff -Naur a/kernel/sucompat.c b/kernel/sucompat.c
 --- a/kernel/sucompat.c	2025-07-08 21:55:01.830681152 +0200
 +++ b/kernel/sucompat.c	2025-07-08 21:58:12.071346428 +0200
-@@ -43,25 +43,19 @@
+@@ -14,6 +14,10 @@
+ #include <linux/sched.h>
+ #endif
+ 
++#ifdef CONFIG_KSU_SUSFS_SUS_SU
++#include <linux/susfs_def.h>
++#endif
++
+ #include "objsec.h"
+ #include "allowlist.h"
+ #include "arch.h"
+@@ -43,25 +47,19 @@
  	return copy_to_user(p, d, len) ? NULL : p;
  }
  
@@ -29,7 +40,7 @@ diff -Naur a/kernel/sucompat.c b/kernel/sucompat.c
  #ifndef CONFIG_KSU_KPROBES_HOOK
  	if (!ksu_sucompat_non_kp) {
  		return 0;
-@@ -84,11 +78,31 @@
+@@ -84,11 +82,31 @@
  	return 0;
  }
  
