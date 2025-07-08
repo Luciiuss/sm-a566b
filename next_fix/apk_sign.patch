@@ -1,0 +1,34 @@
+diff -Naur a/kernel/apk_sign.c b/kernel/apk_sign.c
+--- a/kernel/apk_sign.c	2025-07-08 20:52:32.004202411 +0200
++++ b/kernel/apk_sign.c	2025-07-08 20:56:18.854386259 +0200
+@@ -315,23 +315,12 @@
+ 
+ #endif
+ 
+-bool is_manager_apk(char *path)
++bool ksu_is_manager_apk(char *path)
+ {
+-	int tries = 0;
+-
+-	while (tries++ < 10) {
+-		if (!is_lock_held(path))
+-			break;
+-
+-		pr_info("%s: waiting for %s\n", __func__, path);
+-		msleep(100);
+-	}
+-
+-	// let it go, if retry fails, check_v2_signature will fail to open it anyway
+-	if (tries == 10) {
+-		pr_info("%s: timeout for %s\n", __func__, path);
+-		return false;
+-	}
+-
+-	return check_v2_signature(path, EXPECTED_NEXT_SIZE, EXPECTED_NEXT_HASH);
++#ifdef CONFIG_KSU_SUSFS
++	return (check_v2_signature(path, EXPECTED_SIZE, EXPECTED_HASH) ||
++			check_v2_signature(path, 384, "7e0c6d7278a3bb8e364e0fcba95afaf3666cf5ff3c245a3b63c8833bd0445cc4")); // 5ec1cff
++#else
++	return check_v2_signature(path, EXPECTED_SIZE, EXPECTED_HASH);
++#endif
+ }
