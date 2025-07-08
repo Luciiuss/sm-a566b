@@ -31,6 +31,8 @@ echo "Copy ksud.patch..."
 cp next_fix/ksud.patch $(dirname "$0")/kernel-6.6/KernelSU-Next
 echo "Copy selinux.patch..."
 cp next_fix/selinux.patch $(dirname "$0")/kernel-6.6/KernelSU-Next
+echo "Copy sucompat.patch..."
+cp next_fix/sucompat.patch $(dirname "$0")/kernel-6.6/KernelSU-Next
 
 cd "$(dirname "$0")/kernel-6.6"
 echo "Patching kernel..."
@@ -46,5 +48,6 @@ patch -p1 < apk_sign.patch
 patch -p1 < core_hook.patch
 patch -p1 < ksud.patch
 patch -p1 < selinux.patch
+patch -p1 < sucompat.patch
 
 echo "susfs successfully installed."
