@@ -64,7 +64,7 @@ If you just want a working kernel including KernelSU Next and susfs, download th
 Special thanks to the following projects and contributors:
 
 * [**Magisk**](https://github.com/topjohnwu/Magisk) — for the `magiskboot` utility (by topjohnwu & contributors)
-* [**KernelSU-Next**](https://github.com/KernelSU-Next/KernelSU-Next) — by [rifxsd](https://github.com/rifxsd)
+* [**KernelSU-Next**](https://github.com/KernelSU-Next/KernelSU-Next) — by [rifsxd](https://github.com/rifsxd)
 * [**susfs4ksu**](https://gitlab.com/simonpunk/susfs4ksu) — by [simonpunk](https://gitlab.com/simonpunk)
 * [**kernel_patches**](https://github.com/WildKernels/kernel_patches) — by [WildKernels](https://github.com/WildKernels/)
 * Scope-Minimized Manual Hooks — by [backslashxx](https://github.com/backslashxx)
