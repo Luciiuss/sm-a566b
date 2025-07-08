@@ -12,24 +12,24 @@ echo "Copy kernel_patches/fs to kernel source..."
 cp -r susfs4ksu/kernel_patches/fs $(dirname "$0")/kernel-6.6
 echo "Copy kernel_patches/include to kernel source..."
 cp -r susfs4ksu/kernel_patches/include $(dirname "$0")/kernel-6.6
-echo "Copy 50_add_susfs_in_gki-android15-6.6.patch.."
+echo "Copy 50_add_susfs_in_gki-android15-6.6.patch..."
 cp -r susfs4ksu/kernel_patches/50_add_susfs_in_gki-android15-6.6.patch $(dirname "$0")/kernel-6.6
 
-echo "Copy 10_enable_susfs_for_ksu.patch.."
+echo "Copy 10_enable_susfs_for_ksu.patch..."
 cp -r susfs4ksu/kernel_patches/KernelSU/10_enable_susfs_for_ksu.patch $(dirname "$0")/kernel-6.6/KernelSU-Next
 
 # Samsung Fix
-echo "Copy namespace.patch."
+echo "Copy namespace.patch..."
 cp samsung_fix/namespace.patch $(dirname "$0")/kernel-6.6
 
 # KernelSU-Next Fix
-echo "Copy apk_sign.patch."
+echo "Copy apk_sign.patch..."
 cp next_fix/apk_sign.patch $(dirname "$0")/kernel-6.6/KernelSU-Next
-echo "Copy core_hook.patch."
+echo "Copy core_hook.patch..."
 cp next_fix/core_hook.patch $(dirname "$0")/kernel-6.6/KernelSU-Next
-echo "Copy ksud.patch."
+echo "Copy ksud.patch..."
 cp next_fix/ksud.patch $(dirname "$0")/kernel-6.6/KernelSU-Next
-echo "Copy selinux.patch."
+echo "Copy selinux.patch..."
 cp next_fix/selinux.patch $(dirname "$0")/kernel-6.6/KernelSU-Next
 
 cd "$(dirname "$0")/kernel-6.6"
