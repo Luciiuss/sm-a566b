@@ -1,6 +1,7 @@
 #!/bin/bash
 set -e
 
+# Tested KernelSU-Next version: 1.0.9
 # Tested susfs version: 1.5.9
 
 [[ -d kernel-6.6/KernelSU-Next ]] || { echo "Please install KernelSU-Next before you install susfs!"; exit 1; }
@@ -29,6 +30,8 @@ echo "Copy core_hook.patch..."
 cp next_fix/core_hook.patch $(dirname "$0")/kernel-6.6/KernelSU-Next
 echo "Copy ksud.patch..."
 cp next_fix/ksud.patch $(dirname "$0")/kernel-6.6/KernelSU-Next
+echo "Copy rules.patch..."
+cp next_fix/rules.patch $(dirname "$0")/kernel-6.6/KernelSU-Next
 echo "Copy selinux.patch..."
 cp next_fix/selinux.patch $(dirname "$0")/kernel-6.6/KernelSU-Next
 echo "Copy sucompat.patch..."
@@ -43,10 +46,11 @@ patch -p1 < namespace.patch
 cd "$(dirname "$0")/KernelSU-Next"
 echo "Patching KernelSU..."
 patch -p1 < 10_enable_susfs_for_ksu.patch || true # Ignore patch errors
-echo "Patching Kernel-Next fix..."
+echo "Patching KernelSU-Next fix..."
 patch -p1 < apk_sign.patch
 patch -p1 < core_hook.patch
 patch -p1 < ksud.patch
+patch -p1 < rules.patch
 patch -p1 < selinux.patch
 patch -p1 < sucompat.patch
 

@@ -1,6 +1,6 @@
 diff -Naur a/kernel/sucompat.c b/kernel/sucompat.c
---- a/kernel/sucompat.c	2025-07-08 21:55:01.830681152 +0200
-+++ b/kernel/sucompat.c	2025-07-08 21:58:12.071346428 +0200
+--- a/kernel/sucompat.c	2025-07-15 10:11:23.497520212 +0200
++++ b/kernel/sucompat.c	2025-07-15 10:38:04.502655385 +0200
 @@ -14,6 +14,10 @@
  #include <linux/sched.h>
  #endif
@@ -12,7 +12,7 @@ diff -Naur a/kernel/sucompat.c b/kernel/sucompat.c
  #include "objsec.h"
  #include "allowlist.h"
  #include "arch.h"
-@@ -43,25 +47,19 @@
+@@ -43,37 +47,37 @@
  	return copy_to_user(p, d, len) ? NULL : p;
  }
  
@@ -40,7 +40,25 @@ diff -Naur a/kernel/sucompat.c b/kernel/sucompat.c
  #ifndef CONFIG_KSU_KPROBES_HOOK
  	if (!ksu_sucompat_non_kp) {
  		return 0;
-@@ -84,11 +82,31 @@
+ 	}
+ #endif
+ 
++#ifndef CONFIG_KSU_SUSFS_SUS_SU
+ 	if (!ksu_is_allow_uid(current_uid().val)) {
+ 		return 0;
+ 	}
++#endif
+ 
++#ifdef CONFIG_KSU_SUSFS_SUS_SU
++	char path[sizeof(su)] = {0};
++#else
+ 	char path[sizeof(su) + 1];
+ 	memset(path, 0, sizeof(path));
++#endif
+ 	ksu_strncpy_from_user_nofault(path, *filename_user, sizeof(path));
+ 
+ 	if (unlikely(!memcmp(path, su, sizeof(su)))) {
+@@ -84,27 +88,49 @@
  	return 0;
  }
  
@@ -49,10 +67,6 @@ diff -Naur a/kernel/sucompat.c b/kernel/sucompat.c
 +	struct filename *name = getname_flags(*filename_user, getname_statx_lookup_flags(*flags), NULL);
 +
 +	if (unlikely(IS_ERR(name) || name->name == NULL)) {
-+		return name;
-+	}
-+
-+	if (!ksu_is_allow_uid(current_uid().val)) {
 +		return name;
 +	}
 +
@@ -75,3 +89,53 @@ diff -Naur a/kernel/sucompat.c b/kernel/sucompat.c
  #ifndef CONFIG_KSU_KPROBES_HOOK
  	if (!ksu_sucompat_non_kp){
  		return 0;
+ 	}
+ #endif
+ 
++#ifndef CONFIG_KSU_SUSFS_SUS_SU
+ 	if (!ksu_is_allow_uid(current_uid().val)) {
+ 		return 0;
+ 	}
++#endif
+ 
+ 	if (unlikely(!filename_user)) {
+ 		return 0;
+ 	}
+ 
++#ifdef CONFIG_KSU_SUSFS_SUS_SU
++	char path[sizeof(su)] = {0};
++#else
+ 	char path[sizeof(su) + 1];
+ 	memset(path, 0, sizeof(path));
++#endif
+ // Remove this later!! we use syscall hook, so this will never happen!!!!!
+ #if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 18, 0) && 0
+ 	// it becomes a `struct filename *` after 5.18
+@@ -171,8 +197,12 @@
+ 			       void *__never_use_argv, void *__never_use_envp,
+ 			       int *__never_use_flags)
+ {
+-	const char su[] = SU_PATH;
++	//const char su[] = SU_PATH;
++#ifdef CONFIG_KSU_SUSFS_SUS_SU
++	char path[sizeof(su)] = {0};
++#else
+ 	char path[sizeof(su) + 1];
++#endif
+ 
+ #ifndef CONFIG_KSU_KPROBES_HOOK
+ 	if (!ksu_sucompat_non_kp) {
+@@ -193,10 +223,13 @@
+ 	if (!access_ok(*filename_user, sizeof(path)))
+ 		return 0;
+ #endif
++
++#ifndef CONFIG_KSU_SUSFS_SUS_SU
+ 	// success = returns number of bytes and should be less than path
+ 	long len = strncpy_from_user(path, *filename_user, sizeof(path));
+ 	if (len <= 0 || len > sizeof(path))
+ 		return 0;
++#endif
+ 
+ 	// strncpy_from_user_nofault does this too
+ 	path[sizeof(path) - 1] = '\0';

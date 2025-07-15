@@ -1,6 +1,6 @@
 diff -Naur a/kernel/ksud.c b/kernel/ksud.c
---- a/kernel/ksud.c	2025-07-08 20:52:42.315886676 +0200
-+++ b/kernel/ksud.c	2025-07-08 21:07:09.721880765 +0200
+--- a/kernel/ksud.c	2025-07-15 10:11:23.493833080 +0200
++++ b/kernel/ksud.c	2025-07-15 10:17:36.979712808 +0200
 @@ -64,6 +64,9 @@
  bool ksu_execveat_hook __read_mostly = true;
  bool ksu_input_hook __read_mostly = true;
