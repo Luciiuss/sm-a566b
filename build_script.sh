@@ -6,9 +6,17 @@ set -e
 # - Prebuilts/toolchain: <script dir>/prebuilts
 ###############################################################################
 
+# Change to your actual firmware version to match the stock kernel string.
+VERSION="LUCIUS"
+
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 KERNEL_DIR="${SCRIPT_DIR}/kernel-6.6"
 TOOLCHAIN="${SCRIPT_DIR}/prebuilts"
+
+if [ ! -d "$TOOLCHAIN" ]; then
+    echo "ERROR: Missing toolchain"
+    exit 1
+fi
 
 export PATH="${TOOLCHAIN}/build-tools/linux-x86/bin:${PATH}"
 export PATH="${TOOLCHAIN}/build-tools/path/linux-x86:${PATH}"
@@ -41,12 +49,12 @@ if [[ ! -f "${CONFIG_FILE}" ]]; then
   exit 1
 fi
 
-# Disable Samsung Protection
+# Disable Samsung Protection & Change LOCALVERSION
 "${KERNEL_DIR}/scripts/config" --file "${CONFIG_FILE}" \
   -d UH -d RKP -d KDP -d SECURITY_DEFEX -d INTEGRITY -d FIVE \
   -d TRIM_UNUSED_KSYMS -d PROCA -d PROCA_GKI_10 -d PROCA_S_OS \
   -d PROCA_CERTIFICATES_XATTR -d PROCA_CERT_ENG -d PROCA_CERT_USER \
-  -d GAF -d GAF_V6 -d FIVE_CERT_USER -d FIVE_DEFAULT_HASH
+  -d GAF -d GAF_V6 -d FIVE_CERT_USER -d FIVE_DEFAULT_HASH --set-str CONFIG_LOCALVERSION "-$VERSION-4k"
 
 # Thin‑LTO
 if [[ "${LTO:-}" == "thin" ]]; then
