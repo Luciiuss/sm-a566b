@@ -1,20 +1,12 @@
 diff -Naur a/fs/open.c b/fs/open.c
---- a/fs/open.c	2025-07-15 10:53:34.656095388 +0200
-+++ b/fs/open.c	2025-07-15 10:56:35.851043062 +0200
-@@ -553,8 +553,16 @@
- 	return res;
- }
- 
-+#ifdef CONFIG_KSU
-+extern __attribute__((hot, always_inline)) int ksu_handle_faccessat(int *dfd, const char __user **filename_user, int *mode,
-+																	int *flags);
-+#endif
-+
+--- a/fs/open.c	2025-07-23 16:10:34.546806069 +0200
++++ b/fs/open.c	2025-07-23 16:12:25.779439029 +0200
+@@ -561,7 +561,7 @@
  SYSCALL_DEFINE3(faccessat, int, dfd, const char __user *, filename, int, mode)
  {
-+#ifdef CONFIG_KSU
+ #if defined(CONFIG_KSU) && !defined(CONFIG_KSU_KPROBES_HOOK)
+-	ksu_handle_faccessat(&dfd, &filename, &mode, NULL);
 +	ksu_handle_faccessat(&dfd, &filename, &mode, 0);
-+#endif
+ #endif
  	return do_faccessat(dfd, filename, mode, 0);
  }
- 

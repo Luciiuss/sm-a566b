@@ -11,6 +11,10 @@ VERSION="LUCIUS"
 
 SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
 KERNEL_DIR="${SCRIPT_DIR}/kernel-6.6"
+
+NEXT_DIR="${KERNEL_DIR}/KernelSU-Next"
+SUSFS_FILE="${KERNEL_DIR}/fs/susfs.c"
+
 TOOLCHAIN="${SCRIPT_DIR}/prebuilts"
 
 if [ ! -d "$TOOLCHAIN" ]; then
@@ -49,12 +53,42 @@ if [[ ! -f "${CONFIG_FILE}" ]]; then
   exit 1
 fi
 
-# Disable Samsung Protection & Change LOCALVERSION
+# Disable Samsung Protection
 "${KERNEL_DIR}/scripts/config" --file "${CONFIG_FILE}" \
   -d UH -d RKP -d KDP -d SECURITY_DEFEX -d INTEGRITY -d FIVE \
   -d TRIM_UNUSED_KSYMS -d PROCA -d PROCA_GKI_10 -d PROCA_S_OS \
   -d PROCA_CERTIFICATES_XATTR -d PROCA_CERT_ENG -d PROCA_CERT_USER \
-  -d GAF -d GAF_V6 -d FIVE_CERT_USER -d FIVE_DEFAULT_HASH --set-str CONFIG_LOCALVERSION "-$VERSION-4k"
+  -d GAF -d GAF_V6 -d FIVE_CERT_USER -d FIVE_DEFAULT_HASH
+
+# Change LOCALVERSION
+"${KERNEL_DIR}/scripts/config" --file "${CONFIG_FILE}" \
+  --set-str CONFIG_LOCALVERSION "-$VERSION-4k"
+
+# Add additional tmpfs settings
+"${KERNEL_DIR}/scripts/config" --file "${CONFIG_FILE}" \
+  -e CONFIG_TMPFS_XATTR -e CONFIG_TMPFS_POSIX_ACL
+
+# KernelSU-Next config
+if [ -d "$NEXT_DIR" ]; then
+"${KERNEL_DIR}/scripts/config" --file "${CONFIG_FILE}" \
+  -e CONFIG_KSU -d CONFIG_KSU_KPROBES_HOOK
+fi
+
+# SUSFS config
+if [ "$SUSFS_FILE" ]; then
+"${KERNEL_DIR}/scripts/config" --file "${CONFIG_FILE}" \
+  -e CONFIG_KSU_SUSFS -e CONFIG_KSU_SUSFS_HAS_MAGIC_MOUNT \
+  -e CONFIG_KSU_SUSFS_SUS_PATH -e CONFIG_KSU_SUSFS_SUS_MOUNT \
+  -e CONFIG_KSU_SUSFS_AUTO_ADD_SUS_KSU_DEFAULT_MOUNT \
+  -e CONFIG_KSU_SUSFS_AUTO_ADD_SUS_BIND_MOUNT \
+  -e CONFIG_KSU_SUSFS_SUS_KSTAT -d CONFIG_KSU_SUSFS_SUS_OVERLAYFS \
+  -e CONFIG_KSU_SUSFS_TRY_UMOUNT \
+  -e CONFIG_KSU_SUSFS_AUTO_ADD_TRY_UMOUNT_FOR_BIND_MOUNT \
+  -e CONFIG_KSU_SUSFS_SPOOF_UNAME -e CONFIG_KSU_SUSFS_ENABLE_LOG \
+  -e CONFIG_KSU_SUSFS_HIDE_KSU_SUSFS_SYMBOLS \
+  -e CONFIG_KSU_SUSFS_SPOOF_CMDLINE_OR_BOOTCONFIG \
+  -e CONFIG_KSU_SUSFS_OPEN_REDIRECT -d CONFIG_KSU_SUSFS_SUS_SU
+fi
 
 # Thin‑LTO
 if [[ "${LTO:-}" == "thin" ]]; then
