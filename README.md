@@ -63,6 +63,7 @@ If you just want a working kernel including KernelSU Next and susfs, download th
 
 Special thanks to the following projects and contributors:
 
+* [**Samsung**](https://opensource.samsung.com/) — for providing the kernel source and boot image
 * [**Magisk**](https://github.com/topjohnwu/Magisk) — for the `magiskboot` utility (by topjohnwu & contributors)
 * [**KernelSU-Next**](https://github.com/KernelSU-Next/KernelSU-Next) — by [rifsxd](https://github.com/rifsxd)
 * [**susfs4ksu**](https://gitlab.com/simonpunk/susfs4ksu) — by [simonpunk](https://gitlab.com/simonpunk)
