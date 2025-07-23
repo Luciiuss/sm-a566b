@@ -1,7 +1,20 @@
 diff -Naur a/kernel/core_hook.c b/kernel/core_hook.c
---- a/kernel/core_hook.c	2025-07-18 10:24:14.014316938 +0200
-+++ b/kernel/core_hook.c	2025-07-18 10:26:33.880309433 +0200
-@@ -1024,12 +1024,44 @@
+--- a/kernel/core_hook.c	2025-07-23 16:34:05.080314974 +0200
++++ b/kernel/core_hook.c	2025-07-23 16:45:59.148030928 +0200
+@@ -549,6 +549,12 @@
+ 		}
+ 
+ 		if (enabled) {
++#ifdef CONFIG_KSU_SUSFS_SUS_SU
++			// We disable all sus_su hook whenever user toggle on su_kps
++			susfs_is_sus_su_hooks_enabled = false;
++			ksu_devpts_hook = false;
++			susfs_sus_su_working_mode = SUS_SU_DISABLED;
++#endif
+ 			ksu_sucompat_init();
+ 		} else {
+ 			ksu_sucompat_exit();
+@@ -1048,12 +1054,43 @@
  		return;
  	}
  
@@ -42,11 +55,10 @@ diff -Naur a/kernel/core_hook.c b/kernel/core_hook.c
 +}
 +#endif
 +
-+
  int ksu_handle_setuid(struct cred *new, const struct cred *old)
  {
  	// this hook is used for umounting overlayfs for some uid, if there isn't any module mounted, just ignore it!
-@@ -1143,25 +1175,31 @@
+@@ -1173,25 +1210,31 @@
  		current->pid);
  #endif
  

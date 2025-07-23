@@ -1,6 +1,6 @@
 diff -Naur a/kernel/selinux/rules.c b/kernel/selinux/rules.c
---- a/kernel/selinux/rules.c	2025-07-15 10:11:23.495315132 +0200
-+++ b/kernel/selinux/rules.c	2025-07-15 10:47:28.604699638 +0200
+--- a/kernel/selinux/rules.c	2025-07-23 16:34:05.085435289 +0200
++++ b/kernel/selinux/rules.c	2025-07-23 17:01:33.842729452 +0200
 @@ -38,11 +38,11 @@
  
  static DEFINE_MUTEX(ksu_rules);

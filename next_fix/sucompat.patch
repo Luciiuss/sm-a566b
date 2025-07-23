@@ -1,6 +1,6 @@
 diff -Naur a/kernel/sucompat.c b/kernel/sucompat.c
---- a/kernel/sucompat.c	2025-07-15 10:11:23.497520212 +0200
-+++ b/kernel/sucompat.c	2025-07-15 10:38:04.502655385 +0200
+--- a/kernel/sucompat.c	2025-07-23 16:34:05.088035845 +0200
++++ b/kernel/sucompat.c	2025-07-23 16:59:17.252688215 +0200
 @@ -14,6 +14,10 @@
  #include <linux/sched.h>
  #endif
@@ -12,7 +12,7 @@ diff -Naur a/kernel/sucompat.c b/kernel/sucompat.c
  #include "objsec.h"
  #include "allowlist.h"
  #include "arch.h"
-@@ -43,37 +47,37 @@
+@@ -43,38 +47,38 @@
  	return copy_to_user(p, d, len) ? NULL : p;
  }
  
@@ -54,11 +54,12 @@ diff -Naur a/kernel/sucompat.c b/kernel/sucompat.c
 +#else
  	char path[sizeof(su) + 1];
  	memset(path, 0, sizeof(path));
-+#endif
  	ksu_strncpy_from_user_nofault(path, *filename_user, sizeof(path));
++#endif
  
  	if (unlikely(!memcmp(path, su, sizeof(su)))) {
-@@ -84,27 +88,49 @@
+ 		pr_info("faccessat su->sh!\n");
+@@ -84,27 +88,50 @@
  	return 0;
  }
  
@@ -108,10 +109,11 @@ diff -Naur a/kernel/sucompat.c b/kernel/sucompat.c
  	char path[sizeof(su) + 1];
  	memset(path, 0, sizeof(path));
 +#endif
++
  // Remove this later!! we use syscall hook, so this will never happen!!!!!
  #if LINUX_VERSION_CODE >= KERNEL_VERSION(5, 18, 0) && 0
  	// it becomes a `struct filename *` after 5.18
-@@ -171,8 +197,12 @@
+@@ -171,8 +198,12 @@
  			       void *__never_use_argv, void *__never_use_envp,
  			       int *__never_use_flags)
  {
@@ -125,17 +127,13 @@ diff -Naur a/kernel/sucompat.c b/kernel/sucompat.c
  
  #ifndef CONFIG_KSU_KPROBES_HOOK
  	if (!ksu_sucompat_non_kp) {
-@@ -193,10 +223,13 @@
- 	if (!access_ok(*filename_user, sizeof(path)))
+@@ -183,7 +214,9 @@
+ 	if (unlikely(!filename_user))
  		return 0;
- #endif
-+
-+#ifndef CONFIG_KSU_SUSFS_SUS_SU
- 	// success = returns number of bytes and should be less than path
- 	long len = strncpy_from_user(path, *filename_user, sizeof(path));
- 	if (len <= 0 || len > sizeof(path))
- 		return 0;
-+#endif
  
- 	// strncpy_from_user_nofault does this too
- 	path[sizeof(path) - 1] = '\0';
++#ifndef CONFIG_KSU_SUSFS_SUS_SU
+ 	memset(path, 0, sizeof(path));
++#endif
+ 	ksu_strncpy_from_user_retry(path, *filename_user, sizeof(path));
+ 
+ 	if (likely(memcmp(path, su, sizeof(su))))

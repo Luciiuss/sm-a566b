@@ -1,6 +1,6 @@
 diff -Naur a/kernel/selinux/selinux.c b/kernel/selinux/selinux.c
---- a/kernel/selinux/selinux.c	2025-07-15 10:11:23.496124472 +0200
-+++ b/kernel/selinux/selinux.c	2025-07-15 10:40:32.688590030 +0200
+--- a/kernel/selinux/selinux.c	2025-07-23 16:34:05.086292010 +0200
++++ b/kernel/selinux/selinux.c	2025-07-23 17:02:38.450579439 +0200
 @@ -60,7 +60,7 @@
  }*/
  }
