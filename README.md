@@ -9,7 +9,7 @@
 This repository contains everything needed to build a custom kernel for the **Samsung Galaxy A56 (SM‑A566B)**.
 It is based on kernel source **A566BXXS4AYE5 / A566BXXU4AYF2**
 
-My device is running just fine with **A566BXXU4AYE7** firmware.
+My device is running just fine with **A566BXXS5AYFA** firmware.
 
 ## Patch Kernel
 
