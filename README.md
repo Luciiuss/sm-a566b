@@ -4,6 +4,16 @@
 > 
 > To keep the Git history lean and avoid limits, download the required toolchains yourself and drop them in **`prebuilts/`**.
 
+## Warning about upcoming One UI 8.0
+
+Please do not update to One UI 8.0 when it's released by Samsung.
+
+Samsung has removed the option to unlock the bootloader in this version.
+
+More details: [XDA Forum Thread](https://xdaforums.com/t/bootloader-unlocking-option-removed-from-one-ui-8-0.4751904/)
+
+If you're into rooting, custom ROMs, or device modding, it's highly recommended to stay on One UI 7 for now.
+
 ## Introduction
 
 This repository contains everything needed to build a custom kernel for the **Samsung Galaxy A56 (SM‑A566B)**.
