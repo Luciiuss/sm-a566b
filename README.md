@@ -69,6 +69,12 @@ If you just want a working kernel including KernelSU Next and susfs, download th
 > 🚨 There is confirmation that the kernel is compatible with the SM-A566E, but compatibility is not guaranteed.
 ---
 
+## Community / Support
+
+For discussions and testing builds, join the Telegram group:
+
+👉 [Join Lucius Kernel Group](https://t.me/lucius_kernel)
+
 ## Credits
 
 Special thanks to the following projects and contributors:

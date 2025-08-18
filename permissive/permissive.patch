@@ -1,0 +1,11 @@
+diff -Naur a/security/selinux/selinuxfs.c b/security/selinux/selinuxfs.c
+--- a/security/selinux/selinuxfs.c	2025-08-19 12:29:36.991033766 +0200
++++ b/security/selinux/selinuxfs.c	2025-08-19 12:31:31.573646962 +0200
+@@ -160,6 +160,7 @@
+ 	new_value = !!scan_value;
+ 
+ 	old_value = enforcing_enabled();
++	new_value = false; //makes kernel permanent permissive
+ 	if (new_value != old_value) {
+ 		length = avc_has_perm(current_sid(), SECINITSID_SECURITY,
+ 				      SECCLASS_SECURITY, SECURITY__SETENFORCE,
