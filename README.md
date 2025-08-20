@@ -1,3 +1,9 @@
+# 📌 Notice
+
+I’m taking a break for now until then, this project will be temporarily archived.
+
+---
+
 # Samsung Galaxy A56 (SM‑A566B)
 
 > ⚠️ **Toolchains are *not* included in this repository.** ⚠️
